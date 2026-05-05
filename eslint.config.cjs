@@ -1,0 +1,13 @@
+module.exports = {
+  ignores: [
+    'node_modules/',
+    'dist/',
+    'build/',
+    '.vite/',
+    'public/',
+    '*.min.js',
+    '.eslintrc.cjs',
+    '.prettierrc',
+    '.prettierignore'
+  ]
+};

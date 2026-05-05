@@ -1,7 +1,0 @@
-node_modules/
-dist/
-build/
-.vite/
-public/
-/*.min.js
-/.eslintrc.cjs
