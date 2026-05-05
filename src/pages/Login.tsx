@@ -66,7 +66,7 @@ const Login = () => {
           </button>
           <p className="text-center font-medium">
             Não possui conta?{' '}
-            <Link data-testid="sign-up" to={''} className="text-green-600">
+            <Link data-testid="sign-up" to={'/sign-up'} className="text-green-600">
               Cadastre-se
             </Link>
           </p>
