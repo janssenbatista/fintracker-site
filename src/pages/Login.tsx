@@ -5,13 +5,31 @@ import { Link } from 'react-router';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isWarningVisible, setIsWarningVisible] = useState(true);
 
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white">
+      {isWarningVisible && (
+        <section className="flex w-full max-w-xl flex-col gap-2 rounded-lg border border-yellow-500 bg-yellow-200 p-4">
+          <p data-testid="warning-text">
+            Essa aplicação é utilizada para testes end to end. Todos os usuários criados são
+            removidos automaticamente todos os dias as 00:00h.
+          </p>
+          <button
+            data-testid="warning-button"
+            type="button"
+            className="cursor-pointer self-end text-yellow-800 hover:text-yellow-900"
+            onClick={() => setIsWarningVisible(false)}
+          >
+            Fechar
+          </button>
+        </section>
+      )}
+
       <div className="mx-4 w-full max-w-xl rounded-lg border border-neutral-200 px-4 py-8 shadow-lg md:px-8">
         <div className="mb-6 flex items-center justify-center">
           <Logo />
