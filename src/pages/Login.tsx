@@ -64,15 +64,6 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
             />
-            <p className="mt-2 text-end">
-              <Link
-                data-testid="forgot-password"
-                to={''}
-                className="text-sm font-medium text-green-600 hover:text-green-700"
-              >
-                Esqueci minha senha
-              </Link>
-            </p>
           </div>
 
           <button
