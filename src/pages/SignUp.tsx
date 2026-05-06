@@ -1,21 +1,27 @@
 import { useState, type SubmitEvent } from 'react';
 import Logo from '../components/Logo';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { validateEmail, validatePassword } from '../utils/form';
+import { useAuth } from '../hooks/useAuth';
+import ErrorMessage from '../components/ErrorMessage';
 
 const SignUp = () => {
-  const [nome, setNome] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isWarningVisible, setIsWarningVisible] = useState(true);
+  const [isUpdatingData, setIsUpdatingData] = useState(false);
+  const navigate = useNavigate();
+  const { signUp, error } = useAuth();
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
+    setIsUpdatingData(false);
     const nextErrors: Record<string, string> = {};
 
-    if (nome.replace(/\s/g, '').length < 2) {
+    if (name.replace(/\s/g, '').length < 2) {
       nextErrors.nome = 'O nome deve possuir pelo menos 2 caracteres.';
     }
 
@@ -35,8 +41,14 @@ const SignUp = () => {
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length === 0) {
-      // TODO: realizar cadastro
-      console.log('Cadastrar', { nome, email });
+      const { error } = await signUp({ name, email, password });
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      navigate('/');
     }
   };
 
@@ -73,11 +85,18 @@ const SignUp = () => {
               id="nome"
               data-testid="name"
               type="text"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setIsUpdatingData(true);
+              }}
               className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
             />
-            {errors.nome && <p className="mt-1 text-sm text-red-600">{errors.nome}</p>}
+            {errors.nome && (
+              <p data-testid="name-error-message" className="mt-1 text-sm text-red-600">
+                {errors.nome}
+              </p>
+            )}
           </div>
 
           <div>
@@ -89,10 +108,17 @@ const SignUp = () => {
               data-testid="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setIsUpdatingData(true);
+              }}
               className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
             />
-            {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+            {errors.email && (
+              <p data-testid="email-error-message" className="mt-1 text-sm text-red-600">
+                {errors.email}
+              </p>
+            )}
           </div>
 
           <div>
@@ -104,10 +130,17 @@ const SignUp = () => {
               data-testid="password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setIsUpdatingData(true);
+              }}
               className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
             />
-            {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
+            {errors.password && (
+              <p data-testid="password-error-message" className="mt-1 text-sm text-red-600">
+                {errors.password}
+              </p>
+            )}
           </div>
 
           <div>
@@ -119,24 +152,34 @@ const SignUp = () => {
               data-testid="confirm-password"
               type="password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                setIsUpdatingData(true);
+              }}
               className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
             />
             {errors.confirmPassword && (
-              <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
+              <p data-testid="confirm-password-error-message" className="mt-1 text-sm text-red-600">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 
+          {error?.code === 'user_already_exists' && !isUpdatingData && (
+            <ErrorMessage message={'E-mail já cadastrado.'} />
+          )}
+
           <button
             type="submit"
-            data-testid="sign-up"
+            data-testid="signup-button"
             className="w-full cursor-pointer rounded bg-green-400 py-2 font-medium text-white transition-colors duration-150 hover:bg-green-500"
           >
             Cadastrar
           </button>
+
           <p className="text-center font-medium">
             Já possui conta?{' '}
-            <Link data-testid="sign-in" className="text-green-600" to={'/login'}>
+            <Link data-testid="signin-link" className="text-green-600" to={'/login'}>
               Entrar
             </Link>
           </p>
