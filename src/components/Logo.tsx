@@ -7,7 +7,7 @@ const Logo = () => {
         <DollarSignIcon data-testid="logo-icon" size={32} />
       </div>
       <p data-testid="logo-text" className="text-4xl font-bold text-green-400">
-        Fin<span className="text-black">Tracker</span>
+        Fin<span className="text-black">Test</span>
       </p>
     </div>
   );
