@@ -1,14 +1,7 @@
 import { useState, type SubmitEvent } from 'react';
 import Logo from '../components/Logo';
 import { Link } from 'react-router';
-
-const validateEmail = (email: string) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
-
-const validatePassword = (pwd: string) => {
-  return /(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}/.test(pwd);
-};
+import { validateEmail, validatePassword } from '../utils/form';
 
 const SignUp = () => {
   const [nome, setNome] = useState('');
