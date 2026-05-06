@@ -1,14 +1,25 @@
 import { useState, type SubmitEvent } from 'react';
 import Logo from '../components/Logo';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { signIn, loading, error } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isWarningVisible, setIsWarningVisible] = useState(true);
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
+    const { error: signInError } = await signIn({
+      email,
+      password,
+    });
+
+    if (!signInError) {
+      navigate('/');
+    }
   };
 
   return (
@@ -69,10 +80,16 @@ const Login = () => {
           <button
             data-testid="sign-in"
             type="submit"
-            className="w-full cursor-pointer rounded bg-green-400 py-2 font-medium text-white transition-colors duration-150 hover:bg-green-500"
+            disabled={loading}
+            className="w-full cursor-pointer rounded bg-green-400 py-2 font-medium text-white transition-colors duration-150 hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Entrar
+            {loading ? 'Entrando...' : 'Entrar'}
           </button>
+          {error && (
+            <p data-testid="error-message" className="text-sm text-red-600">
+              E-mail e/ou senha inválidos.
+            </p>
+          )}
           <p className="text-center font-medium">
             Não possui conta?{' '}
             <Link data-testid="sign-up" to={'/sign-up'} className="text-green-600">
