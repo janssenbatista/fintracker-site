@@ -54,7 +54,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white">
+    <div className="mx-4 flex min-h-screen flex-col items-center justify-center gap-4 bg-white">
       {isWarningVisible && <WarningMessage onClick={() => setIsWarningVisible(false)} />}
 
       <div className="mx-4 w-full max-w-xl rounded-lg border border-neutral-200 px-4 py-8 shadow-lg md:px-8">
