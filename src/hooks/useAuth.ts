@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { AuthError, Session, User } from '@supabase/supabase-js';
 import { supabase } from '../api/supabase';
+import { useNavigate } from 'react-router';
 
 type Credentials = {
   email: string;
@@ -16,6 +17,7 @@ export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<AuthError | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let isMounted = true;
@@ -114,7 +116,7 @@ export const useAuth = () => {
     setUser(null);
     setLoading(false);
 
-    return { error: null };
+    navigate('/login');
   };
 
   return {

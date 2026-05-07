@@ -2,7 +2,7 @@ import { DollarSignIcon } from 'lucide-react';
 
 interface Props {
   iconSize?: number;
-  textSize?: '2xl' | '3xl' | '4xl';
+  textSize?: 'xl' | '2xl' | '3xl' | '4xl';
 }
 
 const Logo: React.FC<Props> = ({ iconSize = 24, textSize = '3xl' }) => {
@@ -11,7 +11,7 @@ const Logo: React.FC<Props> = ({ iconSize = 24, textSize = '3xl' }) => {
       <div className="rounded-full bg-green-400 p-2">
         <DollarSignIcon data-testid="logo-icon" color="white" size={iconSize} />
       </div>
-      <p data-testid="logo-text" className={`font-medium text-${textSize}`}>
+      <p data-testid="logo-text" className={`font-bold text-${textSize}`}>
         FinTest
       </p>
     </div>
