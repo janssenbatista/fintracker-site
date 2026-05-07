@@ -1,13 +1,18 @@
 import { DollarSignIcon } from 'lucide-react';
 
-const Logo = () => {
+interface Props {
+  iconSize?: number;
+  textSize?: '2xl' | '3xl' | '4xl';
+}
+
+const Logo: React.FC<Props> = ({ iconSize = 24, textSize = '3xl' }) => {
   return (
-    <div className="flex items-center gap-1">
-      <div className="rounded-full bg-green-400/60 p-2">
-        <DollarSignIcon data-testid="logo-icon" size={32} />
+    <div className="flex items-center gap-2">
+      <div className="rounded-full bg-green-400 p-2">
+        <DollarSignIcon data-testid="logo-icon" color="white" size={iconSize} />
       </div>
-      <p data-testid="logo-text" className="text-4xl font-bold text-green-400">
-        Fin<span className="text-black">Test</span>
+      <p data-testid="logo-text" className={`font-medium text-${textSize}`}>
+        FinTest
       </p>
     </div>
   );
